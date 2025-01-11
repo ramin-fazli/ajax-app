@@ -11,10 +11,10 @@ export async function agentCreator(messages: CoreMessage[], model: string) {
       model: getModel(model),
       system: `As a professional financial AI agent builder, your main goal is to thoroughly understand the user's query and identify which of the following agentflow templates best meets the user's needs. Consider the user's specific requirements and context to select the most suitable template. Then write the template's number as the output:
 0. Credit Risk Analysis Template
-1. Financial Analysis Template
-9. Investment Management Template
-6. Stock Research Template
-8. Business Intelligence Template
+0. Financial Analysis Template
+0. Investment Management Template
+0. Stock Research Template
+0. Business Intelligence Template
 
 Your decision should be based on a careful assessment of the user's needs, ensuring that the selected template will provide the most optimal solution for their financial AI agent workflow.`,
       messages,

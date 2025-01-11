@@ -14,10 +14,10 @@ const intlMiddleware = createMiddleware({
   defaultLocale: AppConfig.defaultLocale,
 });
 
-const isProtectedRoute = createRouteMatcher([
-  '/',
-  '/search(.*)',
-  '/history(.*)',
+const baseMatcher = createRouteMatcher([
+  // '/(.)',
+  // '/search(.*)',
+  '(.*)',
   '/:locale/',
   '/:locale/dashboard(.*)',
   '/onboarding(.*)',
@@ -25,6 +25,17 @@ const isProtectedRoute = createRouteMatcher([
   '/api(.*)',
   '/:locale/api(.*)',
 ]);
+
+function isProtectedRoute(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+  if (
+    path.includes('/sign-in')
+    || path.includes('/sign-up')
+  ) {
+    return false;
+  }
+  return baseMatcher(req);
+}
 
 export default function middleware(
   request: NextRequest,
