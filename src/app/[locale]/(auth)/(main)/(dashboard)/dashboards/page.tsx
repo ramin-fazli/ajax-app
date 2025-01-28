@@ -8,13 +8,14 @@ const AgentsPage = () => {
         <h2 className="text-sm text-gray-500">Execute your Agentic AI workflows and receive reports and insights.</h2>
       </div>
 
-      <div className="mx-auto flex h-[1900px] flex-col items-center justify-center">
-        <iframe
+      <div className="mx-auto flex h-[400px] flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold">Coming Soon...</h1>
+        {/* <iframe
           src="https://tryajax.com/agent-dashboard/"
           className="size-full border-none"
           title="Embedded Content"
         >
-        </iframe>
+        </iframe> */}
       </div>
     </>
   );
