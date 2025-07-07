@@ -8,6 +8,14 @@
 
 Ajax is a cutting-edge AI-powered platform that enables users to build, deploy, and manage sophisticated financial agentic workflows. With support for multiple AI providers and an intuitive chat-based interface, Ajax transforms complex financial processes into intelligent, automated workflows.
 
+## 📸 Screenshots
+
+<div align="center">
+  <img src="./public/images/ajax-dashboard-screenshot.png" alt="Ajax Dashboard" width="800">
+  <p><em>Ajax AI Workflow Builder - Main Dashboard Interface</em></p>
+</div>
+
+
 ## ✨ Features
 
 ### 🤖 **Multi-AI Provider Support**
