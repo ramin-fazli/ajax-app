@@ -344,10 +344,7 @@ limitations under the License.
 
 ## 🆘 Support
 
-- **Documentation**: [docs.tryajax.com](https://docs.tryajax.com)
-- **Community**: [Discord Server](https://discord.gg/ajax)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ajax/issues)
-- **Email**: support@tryajax.com
+- **Issues**: [GitHub Issues](https://github.com/ramin-fazli/ajax-app/issues)
 
 ## 🙏 Acknowledgments
 
