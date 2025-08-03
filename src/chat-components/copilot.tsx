@@ -1,174 +1,181 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from 'react'
-import { PartialInquiry } from '@/lib/schema/inquiry'
-import { Input } from './ui/input'
-import { Checkbox } from './ui/checkbox'
-import { Button } from './ui/button'
-import { Card } from './ui/card'
-import { ArrowRight, Check, FastForward, Sparkles } from 'lucide-react'
-import {
+import type {
   StreamableValue,
+} from 'ai/rsc';
+import {
   useActions,
   useStreamableValue,
-  useUIState
-} from 'ai/rsc'
-import type { AI } from '@/app/[locale]/(auth)/(main)/(dashboard)/(app)/actions'
-import { useAppState } from '@/lib/utils/app-state'
-import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { models } from '@/lib/types/models'
-import { getDefaultModelId } from '@/lib/utils'
+  useUIState,
+} from 'ai/rsc';
+import { ArrowRight, Check, FastForward, Sparkles } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+
+import type { AI } from '@/app/[locale]/(auth)/(main)/(dashboard)/dashboard/actions';
+import { useLocalStorage } from '@/lib/hooks/use-local-storage';
+import type { PartialInquiry } from '@/lib/schema/inquiry';
+import { models } from '@/lib/types/models';
+import { getDefaultModelId } from '@/lib/utils';
+import { useAppState } from '@/lib/utils/app-state';
+
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Checkbox } from './ui/checkbox';
+import { Input } from './ui/input';
 
 export type CopilotProps = {
-  inquiry?: StreamableValue<PartialInquiry>
-}
+  inquiry?: StreamableValue<PartialInquiry>;
+};
 
 export const Copilot: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
-  const [completed, setCompleted] = useState(false)
-  const [query, setQuery] = useState('')
-  const [skipped, setSkipped] = useState(false)
-  const [data, error, pending] = useStreamableValue<PartialInquiry>(inquiry)
+  const [completed, setCompleted] = useState(false);
+  const [query, setQuery] = useState('');
+  const [skipped, setSkipped] = useState(false);
+  const [data, error, pending] = useStreamableValue<PartialInquiry>(inquiry);
   const [checkedOptions, setCheckedOptions] = useState<{
-    [key: string]: boolean
-  }>({})
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-  const [, setMessages] = useUIState<typeof AI>()
-  const { submit } = useActions()
-  const { isGenerating, setIsGenerating } = useAppState()
-  const [object, setObject] = useState<PartialInquiry>()
+    [key: string]: boolean;
+  }>({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [, setMessages] = useUIState<typeof AI>();
+  const { submit } = useActions();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const [object, setObject] = useState<PartialInquiry>();
   const [selectedModelId] = useLocalStorage<string>(
     'selectedModel',
-    getDefaultModelId(models)
-  )
+    getDefaultModelId(models),
+  );
+
+  const checkIfButtonShouldBeEnabled = (currentOptions = checkedOptions) => {
+    const anyCheckboxChecked = Object.values(currentOptions).some(
+      checked => checked,
+    );
+    setIsButtonDisabled(!(anyCheckboxChecked || query));
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-    checkIfButtonShouldBeEnabled()
-  }
+    setQuery(event.target.value);
+    checkIfButtonShouldBeEnabled();
+  };
 
   const handleOptionChange = (selectedOption: string) => {
     const updatedCheckedOptions = {
       ...checkedOptions,
-      [selectedOption]: !checkedOptions[selectedOption]
-    }
-    setCheckedOptions(updatedCheckedOptions)
-    checkIfButtonShouldBeEnabled(updatedCheckedOptions)
-  }
-
-  const checkIfButtonShouldBeEnabled = (currentOptions = checkedOptions) => {
-    const anyCheckboxChecked = Object.values(currentOptions).some(
-      checked => checked
-    )
-    setIsButtonDisabled(!(anyCheckboxChecked || query))
-  }
+      [selectedOption]: !checkedOptions[selectedOption],
+    };
+    setCheckedOptions(updatedCheckedOptions);
+    checkIfButtonShouldBeEnabled(updatedCheckedOptions);
+  };
 
   const updatedQuery = () => {
     const selectedOptions = Object.entries(checkedOptions)
       .filter(([, checked]) => checked)
-      .map(([option]) => option)
-    return [...selectedOptions, query].filter(Boolean).join(', ')
-  }
+      .map(([option]) => option);
+    return [...selectedOptions, query].filter(Boolean).join(', ');
+  };
 
   useEffect(() => {
-    checkIfButtonShouldBeEnabled()
+    checkIfButtonShouldBeEnabled();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query])
+  }, [query]);
 
   useEffect(() => {
-    if (!data) return
-    setObject(data)
-  }, [data])
+    if (!data) {
+      return;
+    }
+    setObject(data);
+  }, [data]);
 
   const onFormSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
-    skip?: boolean
+    skip?: boolean,
   ) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (isGenerating) return
+    if (isGenerating) {
+      return;
+    }
 
-    setIsGenerating(true)
-    setCompleted(true)
-    setSkipped(skip || false)
+    setIsGenerating(true);
+    setCompleted(true);
+    setSkipped(skip || false);
 
     // Always create FormData
-    const formData = new FormData()
+    const formData = new FormData();
 
     // Add model information
-    formData.set('model', selectedModelId)
+    formData.set('model', selectedModelId);
 
     // If not skipping, add form data from the event
     if (!skip) {
-      const form = e.target as HTMLFormElement
-      const formEntries = Array.from(new FormData(form).entries())
+      const form = e.target as HTMLFormElement;
+      const formEntries = Array.from(new FormData(form).entries());
       formEntries.forEach(([key, value]) => {
         if (key !== 'model') {
           // Don't override model
-          formData.append(key, value)
+          formData.append(key, value);
         }
-      })
+      });
     }
 
-    const response = await submit(formData, skip)
-    setMessages(currentMessages => [...currentMessages, response])
-  }
+    const response = await submit(formData, skip);
+    setMessages(currentMessages => [...currentMessages, response]);
+  };
 
   const handleSkip = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onFormSubmit(e as unknown as React.FormEvent<HTMLFormElement>, true)
-  }
+    onFormSubmit(e as unknown as React.FormEvent<HTMLFormElement>, true);
+  };
 
   if (error) {
     return (
-      <Card className="p-4 w-full flex justify-between items-center">
+      <Card className="flex w-full items-center justify-between p-4">
         <div className="flex items-center space-x-2">
-          <Sparkles className="w-4 h-4" />
-          <h5 className="text-muted-foreground text-xs truncate">
+          <Sparkles className="size-4" />
+          <h5 className="truncate text-xs text-muted-foreground">
             {`error: ${error}`}
           </h5>
         </div>
       </Card>
-    )
+    );
   }
 
   if (skipped) {
-    return null
+    return null;
   }
 
   if (completed) {
     return (
-      <Card className="p-3 md:p-4 w-full flex justify-between items-center">
-        <div className="flex items-center space-x-2 flex-1 min-w-0">
-          <h5 className="text-muted-foreground text-xs truncate">
+      <Card className="flex w-full items-center justify-between p-3 md:p-4">
+        <div className="flex min-w-0 flex-1 items-center space-x-2">
+          <h5 className="truncate text-xs text-muted-foreground">
             {updatedQuery()}
           </h5>
         </div>
-        <Check size={16} className="text-green-500 w-4 h-4" />
+        <Check size={16} className="size-4 text-green-500" />
       </Card>
-    )
+    );
   } else {
     return (
-      <Card className="p-4 rounded-lg w-full mx-auto">
+      <Card className="mx-auto w-full rounded-lg p-4">
         <div className="mb-4">
-          <p className="text-lg text-foreground text-semibold ml-2">
+          <p className="ml-2 text-lg font-semibold text-foreground">
             {object?.question}
           </p>
         </div>
         <form onSubmit={onFormSubmit}>
-          <div className="flex flex-wrap justify-start mb-4">
-            {object?.options?.map((option, index) => (
+          <div className="mb-4 flex flex-wrap justify-start">
+            {object?.options?.map(option => (
               <div
-                key={`option-${index}`}
-                className="flex items-center space-x-1.5 mb-2"
+                key={`option-${option?.value || option?.label}`}
+                className="mb-2 flex items-center space-x-1.5"
               >
                 <Checkbox
                   id={option?.value}
                   name={option?.value}
                   onCheckedChange={() =>
-                    handleOptionChange(option?.label as string)
-                  }
+                    handleOptionChange(option?.label as string)}
                 />
                 <label
-                  className="text-sm whitespace-nowrap pr-4"
+                  className="whitespace-nowrap pr-4 text-sm"
                   htmlFor={option?.value}
                 >
                   {option?.label}
@@ -209,6 +216,6 @@ export const Copilot: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
           </div>
         </form>
       </Card>
-    )
+    );
   }
-}
+};

@@ -1,6 +1,8 @@
-'use client'
+'use client';
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition } from 'react';
+import { toast } from 'sonner';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,21 +12,20 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/chat-components/ui/alert-dialog'
-import { Button } from '@/chat-components/ui/button'
-import { clearChats } from '@/lib/actions/chat'
-import { toast } from 'sonner'
-import { Spinner } from '@/chat-components/ui/spinner'
+  AlertDialogTrigger,
+} from '@/chat-components/ui/alert-dialog';
+import { Button } from '@/chat-components/ui/button';
+import { Spinner } from '@/chat-components/ui/spinner';
+import { clearChats } from '@/lib/actions/chat';
 
 type ClearHistoryProps = {
-  userId: string
-  empty: boolean
-}
+  userId: string;
+  empty: boolean;
+};
 
 export function ClearHistory({ userId, empty }: ClearHistoryProps) {
-  const [open, setOpen] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
@@ -46,17 +47,17 @@ export function ClearHistory({ userId, empty }: ClearHistoryProps) {
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             disabled={isPending}
-            onClick={event => {
-              event.preventDefault()
+            onClick={(event) => {
+              event.preventDefault();
               startTransition(async () => {
-                const result = await clearChats(userId)
+                const result = await clearChats(userId);
                 if (result?.error) {
-                  toast.error(result.error)
+                  toast.error(result.error);
                 } else {
-                  toast.success('History cleared')
+                  toast.success('History cleared');
                 }
-                setOpen(false)
-              })
+                setOpen(false);
+              });
             }}
           >
             {isPending ? <Spinner /> : 'Clear'}
@@ -64,5 +65,5 @@ export function ClearHistory({ userId, empty }: ClearHistoryProps) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

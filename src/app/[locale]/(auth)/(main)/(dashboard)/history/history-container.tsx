@@ -1,16 +1,17 @@
-import React from 'react'
-import { History } from './history'
-import { HistoryList } from './history-list'
 import { auth } from '@clerk/nextjs/server';
+import React from 'react';
+
+import { History } from './history';
+import { HistoryList } from './history-list';
 
 type HistoryContainerProps = {
-  location: 'sidebar' | 'header'
-}
+  location: 'sidebar' | 'header';
+};
 
 const HistoryContainer: React.FC<HistoryContainerProps> = async ({
-  location
+  location,
 }) => {
-  const { userId } = auth()
+  const { userId } = auth();
   return (
     <div
       className={location === 'header' ? 'block sm:hidden' : 'hidden sm:block'}
@@ -19,7 +20,7 @@ const HistoryContainer: React.FC<HistoryContainerProps> = async ({
         <HistoryList userId={userId} />
       </History>
     </div>
-  )
-}
+  );
+};
 
-export default HistoryContainer
+export default HistoryContainer;

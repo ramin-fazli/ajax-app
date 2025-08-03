@@ -47,8 +47,8 @@
       "@/public/*": [
         "./public/*"
       ],
-      "@/(app)/*": [
-        "src/app/[locale]/(auth)/(main)/(dashboard)/(app)/*"
+      "@/dashboard/*": [
+        "src/app/[locale]/(auth)/(main)/(dashboard)/dashboard/*"
       ]
     },
 

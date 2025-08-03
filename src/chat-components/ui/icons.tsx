@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
@@ -17,13 +17,14 @@ function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
         y="0"
         width="156"
         height="156"
-        rx="25" 
-        ry="25" 
+        rx="25"
+        ry="25"
         fill="black"
         stroke="DimGrey"
         strokeWidth="3"
-      ></rect>
-    
+      >
+      </rect>
+
       <text
         x="78"
         y="84"
@@ -34,10 +35,10 @@ function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
       >
         D
       </text>
-    
+
       <text
         x="180"
-        y="50%" 
+        y="50%"
         dominantBaseline="middle"
         textAnchor="start"
         fill="DimGrey"
@@ -46,9 +47,8 @@ function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
         Ajax
       </text>
     </svg>
-    
-    
-      )
+
+  );
 }
 
-export { IconLogo }
+export { IconLogo };

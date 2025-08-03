@@ -2,6 +2,7 @@
 
 import { enUS, frFR } from '@clerk/localizations';
 import { ClerkProvider } from '@clerk/nextjs';
+
 import { AppConfig } from '@/utils/AppConfig';
 
 export default function AuthLayout(props: {
@@ -36,7 +37,7 @@ export default function AuthLayout(props: {
       afterSignOutUrl={afterSignOutUrl}
     >
 
-        {props.children}
+      {props.children}
 
     </ClerkProvider>
   );

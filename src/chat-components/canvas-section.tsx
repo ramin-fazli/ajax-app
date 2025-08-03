@@ -1,33 +1,34 @@
-'use client'
+'use client';
 
-import { Section } from './section'
-import { useRef } from 'react'
-import { Expand } from 'lucide-react'
+import { Expand } from 'lucide-react';
+import { useRef } from 'react';
+
+import { Section } from './section';
 
 export type AnswerSectionProps = {
-  hasHeader?: boolean
-  agentServerUrl: string
-  TemplateID: string
-}
+  hasHeader?: boolean;
+  agentServerUrl: string;
+  TemplateID: string;
+};
 
 export function CanvasSection({
   agentServerUrl,
   TemplateID,
-  hasHeader = true
+  hasHeader = true,
 }: AnswerSectionProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   function handleExpand() {
-    iframeRef.current?.requestFullscreen?.()
+    iframeRef.current?.requestFullscreen?.();
   }
 
   return (
     <div style={{ position: 'relative' }}>
       <Section title={hasHeader ? 'Agentic AI Workflow' : undefined}>
-        <div 
-          style={{ 
-            position: 'absolute', 
-            bottom: '16px', 
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '16px',
             left: '8px',
             padding: '8px',
             borderRadius: '4px',
@@ -38,16 +39,20 @@ export function CanvasSection({
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             const icon = e.currentTarget.firstChild as HTMLElement;
-            if (icon) icon.style.opacity = '1';
+            if (icon) {
+              icon.style.opacity = '1';
+            }
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0)';
             const icon = e.currentTarget.firstChild as HTMLElement;
-            if (icon) icon.style.opacity = '0.7';
+            if (icon) {
+              icon.style.opacity = '0.7';
+            }
           }}
         >
-          <Expand 
-            size={36} 
+          <Expand
+            size={36}
             onClick={handleExpand}
             style={{ opacity: 0.7 }}
           />
@@ -62,5 +67,5 @@ export function CanvasSection({
         />
       </Section>
     </div>
-  )
+  );
 }
