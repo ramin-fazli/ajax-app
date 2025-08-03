@@ -15,7 +15,6 @@ Ajax is a cutting-edge AI-powered platform that enables users to build, deploy, 
   <p><em>Ajax AI Workflow Builder - Main Dashboard Interface</em></p>
 </div>
 
-
 ## ✨ Features
 
 ### 🤖 **Multi-AI Provider Support**
@@ -59,8 +58,8 @@ Ajax is a cutting-edge AI-powered platform that enables users to build, deploy, 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ajax.git
-   cd ajax/app
+   git clone https://github.com/ramin-fazli/ajax-app.git
+   cd ajax-app
    ```
 
 2. **Install dependencies**
@@ -355,7 +354,3 @@ limitations under the License.
 - [Clerk](https://clerk.com) for authentication infrastructure
 
 ---
-
-<div align="center">
-  <strong>Built with ❤️ by the Ajax team</strong>
-</div>
