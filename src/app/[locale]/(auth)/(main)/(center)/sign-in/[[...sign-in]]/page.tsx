@@ -14,7 +14,10 @@ export async function generateMetadata(props: { params: { locale: string } }) {
 }
 
 const SignInPage = (props: { params: { locale: string } }) => (
-  <SignIn routing="hash" />
+  <SignIn 
+    routing="hash"
+    forceRedirectUrl={`/${props.params.locale}/dashboard`}
+  />
   // <SignIn path={getI18nPath('/sign-in', props.params.locale)} />
 
 );

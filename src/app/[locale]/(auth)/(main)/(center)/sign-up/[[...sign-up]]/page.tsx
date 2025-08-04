@@ -16,7 +16,10 @@ export async function generateMetadata(props: { params: { locale: string } }) {
 }
 
 const SignUpPage = (props: { params: { locale: string } }) => (
-  <SignUp path={getI18nPath('/sign-up', props.params.locale)} />
+  <SignUp 
+    path={getI18nPath('/sign-up', props.params.locale)}
+    forceRedirectUrl={`/${props.params.locale}/dashboard`}
+  />
 );
 
 export default SignUpPage;

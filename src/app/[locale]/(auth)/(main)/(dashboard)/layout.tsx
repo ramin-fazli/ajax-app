@@ -1,31 +1,21 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
 
 import { DashboardHeader } from '@/features/dashboard/DashboardHeader';
-
-export async function generateMetadata(props: { params: { locale: string } }) {
-  const t = await getTranslations({
-    locale: props.params.locale,
-    namespace: 'Dashboard',
-  });
-
-  return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
-}
+import { AppStateProvider } from '@/lib/utils/app-state';
 
 export default function DashboardLayout(props: { children: React.ReactNode }) {
   const t = useTranslations('DashboardLayout');
 
   return (
-    <>
+    <AppStateProvider>
       <div className="border-b border-gray-300 shadow-md">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-4">
           <DashboardHeader
             menu={[
               {
-                href: '/',
+                href: '/dashboard',
                 label: t('home'),
               },
               {
@@ -54,8 +44,7 @@ export default function DashboardLayout(props: { children: React.ReactNode }) {
       <div>
         {props.children}
       </div>
-
-    </>
+    </AppStateProvider>
   );
 }
 

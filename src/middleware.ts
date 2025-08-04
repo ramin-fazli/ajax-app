@@ -100,23 +100,8 @@ export default function middleware(
     })(request, event);
   }
 
-  // For authenticated users visiting root path, redirect to dashboard
-  return clerkMiddleware((auth, req) => {
-    const authObj = auth();
-    const path = req.nextUrl.pathname;
-
-    if (
-      authObj.userId
-      && authObj.orgId
-      && (path === '/' || path.match(/^\/[a-z]{2}\/?$/))
-    ) {
-      const locale = path.match(/^\/([a-z]{2})(\/|$)/)?.[1] ?? AppConfig.defaultLocale;
-      const dashboardUrl = new URL(`/${locale}/dashboard`, req.url);
-      return NextResponse.redirect(dashboardUrl);
-    }
-
-    return intlMiddleware(req);
-  })(request, event);
+  // For all other requests, just run internationalization middleware
+  return intlMiddleware(request);
 }
 
 export const config = {
