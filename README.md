@@ -115,6 +115,7 @@ Ajax is a cutting-edge AI-powered platform that enables users to build, deploy, 
 - **Frontend**: Next.js 14 with App Router, React 18, TypeScript
 - **UI Components**: Radix UI, Tailwind CSS, Lucide Icons
 - **AI Integration**: Vercel AI SDK with multi-provider support
+- **Agentic Backend**: [Flowise](https://github.com/FlowiseAI/Flowise) for agent orchestration and workflow execution
 - **State Management**: AI RSC (React Server Components)
 - **Database**: PostgreSQL with Drizzle ORM
 - **Cache**: Redis for session and chat storage
@@ -349,6 +350,7 @@ limitations under the License.
 
 - [Vercel](https://vercel.com) for the AI SDK and hosting platform
 - [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), and [Google](https://ai.google.dev) for AI model access
+- [Flowise](https://github.com/FlowiseAI/Flowise) for agentic backend and workflow orchestration
 - [Radix UI](https://radix-ui.com) for accessible component primitives
 - [Tailwind CSS](https://tailwindcss.com) for the utility-first CSS framework
 - [Clerk](https://clerk.com) for authentication infrastructure
